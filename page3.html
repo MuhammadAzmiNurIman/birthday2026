@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>These are for you - Birthday Card</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
+</head>
+<body>
+  <div class="page flex min-h-screen flex-col items-center justify-center overflow-hidden px-3 py-4" id="p3">
+    <div class="p3-title">These are for you</div>
+    <div class="page-main w-full min-h-0">
+      <div class="p3-row w-full">
+        <!-- Message - Envelope -->
+        <div class="p3-item" onclick="goToUrl('page4.html')">
+          <div class="p3-art-frame p3-art-frame-envelope">
+            <img class="p3-art-img p3-art-img-envelope" src="img/whiteenvelope.png" alt="White Envelope">
+          </div>
+          <div class="p3-lbl">Message</div>
+        </div>
+
+        <!-- Flower - Bouquet -->
+        <div class="p3-item" onclick="goToUrl('page5.html')">
+          <div class="p3-art-frame p3-art-frame-flower">
+            <img class="p3-art-img p3-art-img-flower" src="img/flower.png" alt="Flower">
+          </div>
+          <div class="p3-lbl">Flower</div>
+        </div>
+
+        <!-- Cake -->
+        <div class="p3-item" onclick="goToUrl('page6.html')">
+          <div class="p3-art-frame p3-art-frame-cake">
+            <img class="p3-art-img p3-art-img-cake" src="img/cake.png" alt="Cake">
+          </div>
+          <div class="p3-lbl">Cake</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

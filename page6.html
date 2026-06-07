@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Scrapbook Birthday</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  overflow:hidden;
+}
+
+/* =========================================
+   PAGE
+========================================= */
+#p6{
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #8b3131 0%,
+      #a84747 45%,
+      #7d2d32 100%
+    );
+}
+
+/* soft overlay */
+#p6::before{
+  content:'';
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255,255,255,.08),
+      transparent 25%
+    );
+
+  pointer-events:none;
+}
+
+/* =========================================
+   GRID BACKGROUND
+========================================= */
+.grid-bg{
+  position:absolute;
+  inset:0;
+
+  opacity:.08;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      #fff 0,
+      #fff 1px,
+      transparent 1px,
+      transparent 38px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #fff 0,
+      #fff 1px,
+      transparent 1px,
+      transparent 38px
+    );
+}
+
+/* =========================================
+   PAPER TEAR
+========================================= */
+.paper-tear{
+  position:absolute;
+  bottom:-2px;
+  left:0;
+
+  width:100%;
+  height:180px;
+
+  background:#efe6dc;
+
+  clip-path:polygon(
+    0 72%,
+    5% 76%,
+    10% 68%,
+    16% 82%,
+    22% 70%,
+    30% 85%,
+    38% 72%,
+    44% 84%,
+    52% 70%,
+    60% 86%,
+    70% 68%,
+    80% 82%,
+    90% 70%,
+    100% 82%,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+.p6-inner{
+  position:relative;
+  z-index:2;
+
+  width:min(1400px,100%);
+  min-height:100vh;
+
+  margin:auto;
+  padding:60px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:60px;
+}
+
+/* =========================================
+   LEFT BIG PHOTO
+========================================= */
+.left-wrap{
+  position:relative;
+  width:500px;
+}
+
+/* torn paper */
+.torn-paper{
+  position:absolute;
+  inset:-25px;
+
+  background:#f6efe7;
+
+  border-radius:8px;
+
+  transform:rotate(-5deg);
+
+  opacity:.95;
+
+  clip-path:polygon(
+    0 5%,
+    4% 0,
+    96% 2%,
+    100% 8%,
+    98% 100%,
+    4% 98%,
+    0 94%
+  );
+}
+
+/* big polaroid */
+.big-polaroid{
+  position:relative;
+
+  background:#fff;
+
+  padding:18px 18px 70px;
+
+  border-radius:3px;
+
+  transform:rotate(-3deg);
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.25);
+}
+
+.big-polaroid img{
+  width:100%;
+  height:420px;
+
+  object-fit:cover;
+  display:block;
+}
+
+/* paper tape */
+.tape{
+  position:absolute;
+
+  width:120px;
+  height:34px;
+
+  background:
+    rgba(230,214,185,.72);
+
+  backdrop-filter:blur(2px);
+
+  transform:rotate(-6deg);
+}
+
+.tape-1{
+  left:40px;
+  top:-14px;
+}
+
+.tape-2{
+  right:50px;
+  bottom:18px;
+  transform:rotate(8deg);
+}
+
+/* paper clip */
+.paper-clip{
+  position:absolute;
+  left:-14px;
+  top:22px;
+
+  width:34px;
+  height:80px;
+
+  border:4px solid #8f7a6c;
+  border-radius:20px;
+
+  transform:rotate(-10deg);
+}
+
+/* vinyl */
+.vinyl{
+  position:absolute;
+
+  right:-40px;
+  bottom:-20px;
+
+  width:170px;
+  height:170px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(circle,#222 0%,#000 70%);
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.35);
+
+  overflow:hidden;
+
+  cursor:pointer;
+
+  transition:.4s ease;
+}
+
+@keyframes spinVinyl{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.vinyl.playing{
+  animation:spinVinyl 3s linear infinite;
+}
+
+.vinyl:hover{
+  transform:
+    scale(1.06)
+    rotate(14deg);
+}
+
+.vinyl::before{
+  content:'';
+
+  position:absolute;
+  inset:12px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.vinyl::after{
+  content:'';
+
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  width:34px;
+  height:34px;
+
+  border-radius:50%;
+
+  background:#d44d4d;
+
+  transform:translate(-50%,-50%);
+}
+
+.music-label{
+  position:absolute;
+
+  left:125px;      /* posisi di kiri vinyl */
+  bottom:135px;     /* sejajar dengan vinyl */
+
+  background:#6d2727;
+  color:white;
+
+  padding:12px 24px;
+
+  border-radius:999px;
+
+  font-size:15px;
+  font-weight:600;
+
+  transform:rotate(-3deg);
+
+  z-index:30;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.18);
+
+  transition:.3s ease;
+}
+
+.music-label:hover{
+  transform:
+    rotate(-4deg)
+    translateY(-3px);
+}
+
+/* =========================================
+   SVG CAKE
+========================================= */
+
+.center-wrap{
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cake-svg{
+  width:360px;
+
+  filter:
+    drop-shadow(0 18px 25px rgba(0,0,0,.25));
+}
+
+.cake-svg svg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+/* api berkedip */
+.flame{
+  transform-origin:center;
+  animation:flicker .45s infinite alternate;
+}
+
+/* kue mengambang */
+@keyframes floatCake{
+  0%,100%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+}
+
+/* api lilin */
+@keyframes flicker{
+  0%{
+    transform:
+      scale(1)
+      rotate(-0.4deg);
+  }
+
+  100%{
+    transform:
+      scale(1)
+      rotate(0.4deg);
+  }
+}
+
+/* =========================================
+   RIGHT STACK POLAROID
+========================================= */
+.right-wrap{
+  position:relative;
+
+  width:460px;
+  height:640px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* paper background */
+.stack-paper{
+  position:absolute;
+
+  width:420px;      /* diperbesar */
+  height:580px;     /* diperbesar */
+
+  background:#f3e7db;
+
+  top:30px;         /* naik sedikit */
+
+  border-radius:4px;
+
+  transform:rotate(5deg);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.10);
+
+  z-index:1;
+}
+
+/* polaroid */
+.mini-pol{
+  position:absolute;
+
+  width:170px;
+
+  background:#fff;
+
+  padding:10px 10px 24px;
+
+  border-radius:2px;
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.22);
+
+  transition:.35s ease;
+
+  z-index:3;
+}
+
+.mini-pol:hover{
+  transform:
+    translateY(-10px)
+    scale(1.03)
+    rotate(var(--rot));
+
+  box-shadow:
+    0 22px 38px rgba(0,0,0,.28);
+}
+
+.mini-pol img{
+  width:100%;
+  height:170px;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+/* =========================================
+   POLAROID POSITION
+========================================= */
+
+.pol-1{
+  --rot:-5deg;
+  left:20px;
+  top:50px;      /* sebelumnya 0 */
+  transform:rotate(-5deg);
+}
+
+.pol-2{
+  --rot:4deg;
+  right:-15px;
+  top:60px;      /* sebelumnya 10px */
+  transform:rotate(4deg);
+}
+
+.pol-3{
+  --rot:3deg;
+  left:-10px;
+  top:310px;     /* sebelumnya 260px */
+  transform:rotate(3deg);
+}
+
+.pol-4{
+  --rot:-4deg;
+  right:10px;
+  top:330px;     /* sebelumnya 280px */
+  transform:rotate(-4deg);
+}
+
+/* tape */
+.mini-tape{
+  position:absolute;
+
+  width:72px;
+  height:22px;
+
+  background:
+    rgba(230,214,185,.72);
+
+  top:-10px;
+  left:50%;
+
+  transform:
+    translateX(-50%)
+    rotate(-4deg);
+
+  z-index:4;
+}
+
+/* pin */
+.pin{
+  position:absolute;
+
+  width:18px;
+  height:18px;
+
+  border-radius:50%;
+
+  background:#ccb18f;
+
+  top:-8px;
+  right:16px;
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.5),
+    0 2px 5px rgba(0,0,0,.25);
+
+  z-index:5;
+}
+
+/* =========================================
+   DOODLES
+========================================= */
+
+.doodle{
+  position:absolute;
+
+  color:rgba(255,255,255,.75);
+
+  pointer-events:none;
+
+  z-index:2;
+}
+
+/* heart kiri */
+.d1{
+  left:30px;
+  top:180px;
+
+  font-size:48px;
+
+  transform:rotate(-12deg);
+
+  opacity:.7;
+}
+
+/* heart kanan */
+.d2{
+  right:25px;
+  top:200px;
+
+  font-size:42px;
+
+  transform:rotate(15deg);
+
+  opacity:.5;
+}
+
+/* stars */
+.star{
+  position:absolute;
+
+  color:rgba(255,255,255,.72);
+
+  z-index:2;
+}
+
+.s1{
+  right:70px;
+  top:280px;
+
+  font-size:24px;
+
+  opacity:.65;
+}
+
+.s2{
+  right:90px;
+  top:90px;
+
+  font-size:18px;
+
+  opacity:.8;
+}
+
+.s3{
+  left:58%;
+  top:180px;
+
+  font-size:20px;
+
+  opacity:.6;
+}
+
+.s4{
+  left:60%;
+  top:420px;
+
+  font-size:16px;
+
+  opacity:.5;
+}
+
+.scribble{
+  position:absolute;
+
+  left:180px;
+  bottom:120px;
+
+  color:rgba(255,255,255,.35);
+
+  font-size:24px;
+
+  letter-spacing:6px;
+
+  transform:rotate(-8deg);
+
+  z-index:1;
+}
+
+.next-page-btn{
+    position: fixed;
+
+    bottom: 30px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: #f5e8d8;
+
+    color: #6d2727;
+
+    padding: 12px 30px;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    border-radius: 4px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+
+    transition: .3s;
+    z-index: 99999;
+}
+
+.next-page-btn:hover{
+    transform: translateX(-50%) rotate(-2deg) translateY(-4px);
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+@media(max-width:900px){
+
+  body{
+    overflow:auto;
+  }
+
+  .p6-inner{
+    flex-direction:column;
+    gap:70px;
+
+    padding:70px 24px 180px;
+  }
+
+  .left-wrap,
+  .right-wrap{
+    width:100%;
+    max-width:420px;
+  }
+
+  .big-polaroid img{
+    height:320px;
+  }
+
+  .vinyl{
+    width:130px;
+    height:130px;
+  }
+
+  .center-wrap{
+    transform:scale(.9);
+  }
+
+  .right-wrap{
+    height:560px;
+  }
+
+  .mini-pol{
+    width:150px;
+  }
+
+  .mini-pol img{
+    height:150px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="p6">
+
+  <div class="grid-bg"></div>
+
+  <div class="paper-tear"></div>
+
+  <!-- doodles -->
+  <div class="doodle d1">♡</div>
+  <div class="doodle d2">↺</div>
+
+  <div class="star s1">☆</div>
+  <div class="star s2">✦</div>
+
+  <div class="star s3">✦</div>
+  <div class="star s4">✧</div>
+
+  <div class="scribble">~~~~</div>
+
+  <div class="p6-inner">
+
+    <!-- =====================================
+         LEFT
+    ====================================== -->
+    <div class="left-wrap">
+
+      <div class="torn-paper"></div>
+
+      <div class="big-polaroid">
+
+        <div class="paper-clip"></div>
+
+        <div class="tape tape-1"></div>
+        <div class="tape tape-2"></div>
+
+        <img
+          src="img/karin11.jpeg"
+          alt=""
+        >
+
+      </div>
+
+      <div class="vinyl" onclick="toggleMusic()"></div>
+
+    </div>
+
+    <div class="music-label" onclick="toggleMusic()">
+      🎵 Dengarkan Music
+    </div>
+
+    <!-- =====================================
+         CENTER
+    ====================================== -->
+    <div class="center-wrap">
+      <div class="cake-svg">
+
+  <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- shadow -->
+  <ellipse cx="150"
+           cy="235"
+           rx="95"
+           ry="18"
+           fill="rgba(0,0,0,.15)"/>
+
+  <!-- plate -->
+  <ellipse cx="150"
+           cy="205"
+           rx="110"
+           ry="18"
+           fill="#efe3cf"/>
+
+  <!-- bottom cake -->
+  <rect x="60"
+        y="135"
+        width="180"
+        height="65"
+        rx="12"
+        fill="#e8bf88"/>
+
+  <!-- bottom frosting -->
+  <path d="
+    M75 145
+    H225
+    V160
+    C215 170 205 155 195 165
+    C185 175 175 155 165 165
+    C155 175 145 155 135 165
+    C125 175 115 155 105 165
+    C95 175 85 155 75 165
+    Z"
+    fill="#fff7f0"/>
+
+  <!-- top cake -->
+  <rect x="90"
+        y="70"
+        width="120"
+        height="70"
+        rx="10"
+        fill="#f0ca97"/>
+
+  <!-- top frosting -->
+  <path d="
+    M100 95
+    H200
+    V110
+    C192 118 184 104 176 112
+    C168 120 160 104 152 112
+    C144 120 136 104 128 112
+    C120 120 112 104 104 112
+    C102 115 100 112 100 115
+    Z"
+    fill="#fff7f0"/>
+
+  <!-- candle -->
+  <rect x="143"
+        y="30"
+        width="10"
+        height="40"
+        fill="#77c7ff"/>
+
+  <!-- flame -->
+<path class="flame"
+      d="
+      M150 10
+      C160 22 158 34 150 40
+      C142 34 140 22 150 10"
+      fill="#ffb347"/>
+
+</svg>
+
+</div>
+
+    </div>
+
+    <!-- =====================================
+         RIGHT
+    ====================================== -->
+    <div class="right-wrap">
+
+      <div class="stack-paper"></div>
+
+      <div class="mini-pol pol-1">
+        <div class="mini-tape"></div>
+        <img src="img/karin12.png">
+      </div>
+
+      <div class="mini-pol pol-2">
+        <div class="pin"></div>
+        <img src="img/karin13.png">
+      </div>
+
+      <div class="mini-pol pol-3">
+        <div class="mini-tape"></div>
+        <img src="img/karin14.png">
+      </div>
+
+      <div class="mini-pol pol-4">
+        <div class="pin"></div>
+        <img src="img/karin10.png">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<a href="page3.html" class="next-page-btn">
+    Click Here →
+</a>
+
+  <audio id="bgMusic">
+    <source src="audio/Risk It All.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const music = document.getElementById("bgMusic");
+    const vinyl = document.querySelector(".vinyl");
+
+    function toggleMusic(){
+
+      if(music.paused){
+
+        music.play();
+
+        vinyl.classList.add("playing");
+
+      }else{
+
+        music.pause();
+
+        vinyl.classList.remove("playing");
+
+      }
+
+    }
+
+    /* jika lagu selesai */
+    music.addEventListener("ended", () => {
+      vinyl.classList.remove("playing");
+    });
+
+    const label = document.querySelector(".music-label");
+
+      function toggleMusic(){
+
+        if(music.paused){
+
+          music.play();
+          vinyl.classList.add("playing");
+
+          label.innerHTML = "⏸ Pause Music";
+
+        }else{
+
+          music.pause();
+          vinyl.classList.remove("playing");
+
+          label.innerHTML = "▶ Dengarkan music • Click me";
+        }
+      }
+    </script>
+</body>
+</html>
